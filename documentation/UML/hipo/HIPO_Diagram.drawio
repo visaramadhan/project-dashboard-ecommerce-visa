@@ -1,0 +1,98 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3">
+  <diagram name="Halaman-1" id="eAOs9XlgQPngfPqJjkuD">
+    <mxGraphModel dx="3341" dy="1366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wNbZasDDK-4g0cFuWofB-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="-110" y="160" />
+              <mxPoint x="-110" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="130" y="160" />
+              <mxPoint x="130" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="110" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="650" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="910" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="1170" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wNbZasDDK-4g0cFuWofB-1" target="wNbZasDDK-4g0cFuWofB-9">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="160" />
+              <mxPoint x="1430" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-1" value="Dashboard&amp;nbsp;&lt;div&gt;E-Commerce System&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="315" y="70" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-2" value="Frgot Password Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-165" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-3" value="Home Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="75" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-4" value="Product Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-5" value="Promotion Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="845" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-6" value="Category Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="315" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-7" value="Banner Management Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1105" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-8" value="Login Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-410" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-9" value="Stock Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1365" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wNbZasDDK-4g0cFuWofB-19" value="Sign Up Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-660" y="200" width="130" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
