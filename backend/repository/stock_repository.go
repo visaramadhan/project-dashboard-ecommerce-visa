@@ -7,6 +7,15 @@ import (
 
 type Stock = model.HistoryStock
 
+type stockRepository interface {
+	GetAllStocks() ([]Stock, error)
+	GetStockByID(id int) (*Stock, error)
+	CreateStock(stock *Stock) error
+	UpdateStock(stock *Stock) error
+	DeleteStock(id int) error
+	GetStockByProductID(productId int) ([]Stock, error)
+}
+
 type StockRepository struct {
 	db *gorm.DB
 }

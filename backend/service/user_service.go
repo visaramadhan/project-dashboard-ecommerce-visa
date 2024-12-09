@@ -10,16 +10,30 @@ import (
 )
 
 type User = model.User
-type UserService struct {
-	repo *repository.UserRepository
+
+type UserService interface {
+	Create(user User) error
+	GetByID(id string) (User, error)
+	Update(user User) error
+	Delete(id string) error
+	FindByEmail(email string) (User, error)
+	FindByUsername(username string) (User, error)
+	Authenticate(username, password string) (User, error)
+	ChangePassword(id string, oldPassword, newPassword string) error
+	ResetPassword(id uint, newPassword string) error
+	ChangeEmail(id string, newEmail string) error
+	ForgotPassword(email string) (User, error)
 }
 
-func NewUserService(repo *repository.UserRepository) *UserService {
-	return &UserService{repo: repo}
+type userService struct {
+	repo repository.UserRepository
 }
 
-func (s *UserService) Create(user model.User) error {
-	// Hash password before saving
+func NewUserService(repo *repository.UserRepository) UserService {
+	return *userService{repo: repo}
+}
+
+func (s *userService) Create(user User) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -28,75 +42,96 @@ func (s *UserService) Create(user model.User) error {
 	return s.repo.Create(&user)
 }
 
-func (s *UserService) FindByID(id string) (*model.User, error) {
-	// Mengonversi ID string ke uint
+func (s *userService) GetByID(id string) (*User, error) {
 	userID, err := strconv.ParseUint(id, 10, 32) // 10: basis desimal, 32: ukuran bit
 	if err != nil {
-		return nil, fmt.Errorf("invalid ID format")
+		return &User{}, fmt.Errorf("invalid ID format")
 	}
 
-	// Menggunakan ID yang sudah dikonversi (uint)
 	return s.repo.GetByID(uint(userID)) // pastikan mengubah ke uint
 }
-func (s *UserService) Update(user User) error {
+
+func (s *userService) Update(user User) error {
 	return s.repo.Update(&user)
 }
 
-func (s *UserService) Delete(id string) error {
-	// Mengonversi ID string ke uint
+func (s *userService) Delete(id string) error {
 	userID, err := strconv.ParseUint(id, 10, 32) // 10: basis desimal, 32: ukuran bit
 	if err != nil {
 		return fmt.Errorf("invalid ID format")
 	}
 
-	// Panggil repositori dengan ID yang sudah dikonversi
-	return s.repo.Delete(uint(userID)) // mengonversi ke uint
+	return s.repo.Delete(uint(userID)) // pastikan mengubah ke uint
 }
 
-func (s *UserService) ListAll() ([]User, error) {
-	return s.repo.GetAll()
-}
-
-func (s *UserService) FindByEmail(email string) (*User, error) {
+func (s *userService) FindByEmail(email string) (*User, error) {
 	return s.repo.FindByEmail(email)
 }
 
-func (s *UserService) Authenticate(email, password string) (*User, error) {
-	return s.repo.Authenticate(email, password)
+func (s *userService) FindByUsername(username string) (*User, error) {
+	return s.repo.FindByUsername(username)
 }
 
-func (s *UserService) ChangePassword(id, oldPassword, newPassword string) error {
-	// Mengonversi ID string ke uint
+func (s *userService) Authenticate(username, password string) (*User, error) {
+	user, err := s.repo.FindByUsername(username)
+	if err != nil {
+		return &User{}, err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return &User{}, fmt.Errorf("invalid username or password")
+	}
+
+	return user, nil
+}
+
+func (s *userService) ChangePassword(id string, oldPassword, newPassword string) error {
 	userID, err := strconv.ParseUint(id, 10, 32) // 10: basis desimal, 32: ukuran bit
 	if err != nil {
 		return fmt.Errorf("invalid ID format")
 	}
 
-	// Panggil repositori dengan ID yang sudah dikonversi
-	return s.repo.ChangePassword(uint(userID), oldPassword, newPassword) // mengonversi ke uint
-}
-
-func (s *UserService) ResetPassword(id, newPassword string) error {
-	// Reset password in repository
-	userID, err := strconv.ParseUint(id, 10, 32) // 10: basis desimal, 32: ukuran bit
+	user, err := s.repo.GetByID(uint(userID))
 	if err != nil {
-		return fmt.Errorf("invalid ID format")
+		return err
 	}
-	// Panggil repositori dengan ID yang sudah dikonversi
-	return s.repo.ResetPassword(uint(userID), newPassword)
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(oldPassword))
+	if err != nil {
+		return fmt.Errorf("invalid old password")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hashedPassword)
+
+	return s.repo.Update(user)
 }
 
-func (s *UserService) ForgotPassword(email string) error {
+func (s *userService) ResetPassword(id uint, newPassword string) error {
+	user, err := s.repo.GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hashedPassword)
+
+	return s.repo.Update(user)
+}
+
+func (s *userService) ForgotPassword(email string) error {
 	// Handle forgot password logic
 	return s.repo.ForgotPassword(email)
 }
 
-func (s *UserService) VerifyEmail(token string) error {
-	// Verify email using the token
-	return s.repo.VerifyEmail(token)
-}
-
-func (s *UserService) ResendVerificationEmail(user *User) error {
-	// Resend email verification link
-	return s.repo.ResendVerificationEmail(user)
+func (s *userService) sendPasswordResetEmailEmail(id string, newEmail string) error {
+	// Handle sending password reset email logic
+	return nil
 }

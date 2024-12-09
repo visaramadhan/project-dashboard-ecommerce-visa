@@ -9,6 +9,24 @@ import (
 	"gorm.io/gorm"
 )
 
+type User = model.User
+
+type userRepository interface {
+	Create(user User) error
+	GetByID(id string) (User, error)
+	Update(user User) error
+	Delete(id string) error
+	FindByEmail(email string) (User, error)
+	FindByUsername(username string) (User, error)
+	Authenticate(username, password string) (User, error)
+	ChangePassword(id string, oldPassword, newPassword string) error
+	ResetPassword(id uint, newPassword string) error
+	ChangeEmail(id string, newEmail string) error
+	ForgotPassword(email string) (User, error)
+	sendPasswordResetEmail(email string) (User, error)
+	sendVerificationEmail(email string) (User, error)
+}
+
 type UserRepository struct {
 	db *gorm.DB
 }
@@ -25,16 +43,6 @@ func (r *UserRepository) GetByID(id uint) (*model.User, error) {
 		return nil, err
 	}
 	return &user, nil
-}
-
-// GetAll retrieves all users
-func (r *UserRepository) GetAll() ([]model.User, error) {
-	var users []model.User
-	err := r.db.Find(&users).Error
-	if err != nil {
-		return nil, err
-	}
-	return users, nil
 }
 
 // Create saves a new user to the database
@@ -144,28 +152,6 @@ func (r *UserRepository) ForgotPassword(email string) error {
 
 	// Send the reset password email
 	return r.sendPasswordResetEmail(user, resetLink)
-}
-
-// VerifyEmail verifies the user's email using a token
-func (r *UserRepository) VerifyEmail(token string) error {
-	// In a real scenario, you'd verify the token. Simulating here.
-	var user model.User
-	err := r.db.Where("email_verification_token = ?", token).First(&user).Error
-	if err != nil {
-		return errors.New("invalid or expired token")
-	}
-
-	user.EmailVerified = true
-	return r.db.Save(&user).Error
-}
-
-// ResendVerificationEmail resends the email verification link
-func (r *UserRepository) ResendVerificationEmail(user *model.User) error {
-	// Generate the verification link
-	verificationLink := fmt.Sprintf("http://yourapp.com/verify-email?token=%s", user.EmailVerificationToken)
-
-	// Send the verification email
-	return r.sendVerificationEmail(user, verificationLink)
 }
 
 // SendPasswordResetEmail sends a password reset email

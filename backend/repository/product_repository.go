@@ -7,6 +7,16 @@ import (
 
 type Product = model.Product // Alias untuk model.Product
 
+type productRepository interface {
+	CreateProduct(product *Product) error
+	UpdateProduct(product *Product) error
+	DeleteProduct(id int) error
+	GetAllProducts() ([]Product, error)
+	GetProductById(id int) (*Product, error)
+	GetProductByUserId(userId uint) ([]Product, error)
+	AssignCategoryToProduct(category *Category) error
+}
+
 type ProductRepository struct {
 	db *gorm.DB
 }
@@ -15,75 +25,38 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 	return &ProductRepository{db: db}
 }
 
-// GetProductById mendapatkan product berdasarkan id
-
-func (r *ProductRepository) GetProductById(id uint) (*Product, error) {
-	var product Product
-	result := r.db.Where("id = ?", id).First(&product)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return &product, nil
+func (pr *ProductRepository) CreateProduct(product *Product) error {
+	return pr.db.Create(product).Error
 }
 
-// GetProductByUserId mendapatkan product berdasarkan id user
+func (pr *ProductRepository) UpdateProduct(product *Product) error {
+	return pr.db.Save(product).Error
+}
 
-func (r *ProductRepository) GetProductByUserId(userId uint) ([]Product, error) {
+func (pr *ProductRepository) DeleteProduct(id int) error {
+	return pr.db.Delete(&Product{}, id).Error
+}
+
+func (pr *ProductRepository) GetAllProducts() ([]Product, error) {
 	var products []Product
-	result := r.db.Where("user_id = ?", userId).Find(&products)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return products, nil
+	return products, pr.db.Find(&products).Error
 }
 
-// CreateProduct membuat product baru
-
-func (r *ProductRepository) CreateProduct(product *Product) error {
-	result := r.db.Create(product)
-	return result.Error
-}
-
-// UpdateProduct mengubah product
-
-func (r *ProductRepository) UpdateProduct(product *Product) error {
-	result := r.db.Save(product)
-	return result.Error
-}
-
-// DeleteProduct menghapus product
-
-func (r *ProductRepository) DeleteProduct(product *Product) error {
-	result := r.db.Delete(product)
-	return result.Error
-}
-
-// AssignCategoryToProduct menetapkan kategori ke produk
-func (r *ProductRepository) AssignCategoryToProduct(productID, categoryID uint) error {
-	// Cari produk berdasarkan ID
+func (pr *ProductRepository) GetProductById(id int) (*Product, error) {
 	var product Product
-	if err := r.db.First(&product, productID).Error; err != nil {
-		return err // Produk tidak ditemukan
-	}
-
-	// Tetapkan kategori
-	product.CategoryID = categoryID
-
-	// Simpan perubahan
-	if err := r.db.Save(&product).Error; err != nil {
-		return err // Gagal menyimpan perubahan
-	}
-
-	return nil
+	return &product, pr.db.Where("id = ?", id).First(&product).Error
 }
 
-// GetStockByProductID mendapatkan total stok berdasarkan ProductID
-func (r *ProductRepository) GetStockByProductID(productID uint) (int, error) {
-	var totalStock int
-	err := r.db.Model(&model.HistoryStock{}).
-		Where("product_id = ?", productID).
-		Select("COALESCE(SUM(quantity), 0)"). // Menghitung total stok
-		Scan(&totalStock).Error
+func (pr *ProductRepository) GetProductByUserId(userId uint) ([]Product, error) {
+	var products []Product
+	return products, pr.db.Where("user_id = ?", userId).Find(&products).Error
+}
 
-	return totalStock, err
+func (pr *ProductRepository) AssignCategoryToProduct(category *Category) error {
+	// Append the category to the product's category association
+	association := pr.db.Model(&Product{}).Association("Categories")
+	if err := association.Append(category); err != nil {
+		return err // Return the error if any occurs
+	}
+	return nil // Return nil if no error occurs
 }

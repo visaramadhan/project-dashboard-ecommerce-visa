@@ -6,7 +6,17 @@ import (
 )
 
 type Category = model.Category
+
 // type Product = model.Product
+
+type categoryRepository interface {
+	FindAll() ([]Category, error)
+	FindByID(id uint) (*Category, error)
+	FindByProductID(productID uint) (*Category, error)
+	Update(category *Category) error
+	Delete(id uint) error
+	Create(category *Category) error
+}
 
 type CategoryRepository struct {
 	db *gorm.DB
@@ -36,4 +46,16 @@ func (r *CategoryRepository) FindByProductID(productID uint) (*Category, error) 
 		return nil, err
 	}
 	return &product.Category, nil
+}
+
+func (r *CategoryRepository) Update(category *Category) error {
+	return r.db.Save(category).Error
+}
+
+func (r *CategoryRepository) Delete(id uint) error {
+	return r.db.Delete(&Category{}, id).Error
+}
+
+func (r *CategoryRepository) Create(category *Category) error {
+	return r.db.Create(category).Error
 }
